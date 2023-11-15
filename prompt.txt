@@ -1,0 +1,51 @@
+Hi, I want you to write the automation code. I will provide the context below.
+  Based on Automated test case steps and the related code of the automated test case, You can write the automation code for the test case steps to be automated.
+  The automation code should include, features, steps and utils.
+
+1. Test case steps to be automated(Clicking on the main button, creating a new form with the None category. Show form category in the Other Information tab as a non-editable field. Clicking on the dropdown icon displays a menu for user to specify a form category. Select from the displayed category list. For any used category type, it is disabled. Info icon is shown for the disabled categories. Hover over the info icon shows the tooltip.)
+
+2. Automated test case steps: (Expand relationship type dropdown to choose the type from the displayed list. By default, the relationship type is One to Many. User can change it to One to One or Many to Many.  Many-to-Many relationship, display a warning icon as it is not recommended.)
+
+3. Code of the automated test case.
+
+features(Scenario: [TC73045] Relationship: Change relationship type of attributes added for parent or child in attribute editor
+When open attribute "Customer" in project "_MicroStrategy Tutorial (Attribute)" through workstation api
+And I wait for "Customer" attribute to load
+When I click on main "Relationships" tab
+Then the relationship of the attribute "Customer Age" in "parent" panel is "1 : N"
+When I update the relationship of attribute "Customer Age" in "parent" panel to "N : N"
+Then the relationship status of the attribute "Customer Age" in "parent" panel is "warning"
+And I close Editor "Customer"
+And I select popup button "No"
+Then "Customer" Editor should be disappeared
+)
+
+Steps(
+  Then ('the relationship of the attribute {string} in {string} panel is {string}', async (attributeName, panelName, relationship) => {
+    const actualRelationship = await relationshipsTab.getRelationship(attributeName, panelName)
+    expect(actualRelationship).equal(relationship)
+  })
+
+Then('the relationshop status of the attribute {string} in {string} panel is {string}', async(attributeName, panelName, relationship) => {
+  const actualRelationshipStatus = await relationshipsTab.getRelationshipStatus(attributeName, panelName)
+  expect(actualRelationshipStatus).equal(relationship)
+})
+
+When ('I update the relationship of attribute {string} in {string} panel to {string}', async (attributeName, panelName, relationship) => {
+  await relationshipsTab.updateRelationship(attributeName, panelName, relationship)
+})
+)
+
+Utils(
+  async getAttributeInDropzone(attributeName, panelName) {
+  const targetPanel = panelName  === 'parent' ? await this.getParentPanel() : await this.getChildrenPanel()
+  return await targetPanel.element(by.xpath(`.//span[text()='${attributeName}']/ancestor::div[contains(@class,'mstr-attribute-relationship-pair-container')]`))
+}
+
+async getRelationshipSelect(attributeName, panelName) {
+  const attributeContainer = await this.getAttributeInDropzone(attributeName, panelName)
+  return await attributeContainer.$('.ant-select-selection-item')
+}
+)
+
+4. Existed utils code you can refer to:
