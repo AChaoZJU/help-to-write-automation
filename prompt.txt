@@ -1,12 +1,14 @@
-Hi, I want you to write the automation code. I will provide the context below.
-  Based on the context below, You can write the automation code for the test case steps to be automated.
-  The automation code should include, features, steps and utils.
+Hi, I want you to write the automation code. I will provide the context below including #1, #2, #3.
+  Based on the context below, You can write the automation code for #1, TC730066.
+  The automation code should include add or modification of feature file, steps files and necessary utils files.
 
-1. Test case steps to be automated(Clicking on the main button, creating a new form with the None category. Show form category in the Other Information tab as a non-editable field. Clicking on the dropdown icon displays a menu for user to specify a form category. Select from the displayed category list. For any used category type, it is disabled. Info icon is shown for the disabled categories. Hover over the info icon shows the tooltip.)
+#1 Test case TC73066 steps to be automated(stepsToBeAutomated)
 
-2. Automated test case steps: (Expand relationship type dropdown to choose the type from the displayed list. By default, the relationship type is One to Many. User can change it to One to One or Many to Many.  Many-to-Many relationship, display a warning icon as it is not recommended.)
+#2 Example:
 
-3. Code of the automated test case.
+Automated test case TC73045 steps: (Expand relationship type dropdown to choose the type from the displayed list. By default, the relationship type is One to Many. User can change it to One to One or Many to Many.  Many-to-Many relationship, display a warning icon as it is not recommended.)
+
+Code of the automated test case:
 
 features(Scenario: [TC73045] Relationship: Change relationship type of attributes added for parent or child in attribute editor
 When open attribute "Customer" in project "_MicroStrategy Tutorial (Attribute)" through workstation api
@@ -48,4 +50,4 @@ async getRelationshipSelect(attributeName, panelName) {
 }
 )
 
-4. Other existed automation code is in the embedded doc of ChatGPT.
+#3 Other existed automation code is in the embedded doc of ChatGPT.

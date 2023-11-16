@@ -1,3 +1,5 @@
+import {stepsToBeAutomated} from "./constant";
+
 const fs = require('fs')
 
 
@@ -49,10 +51,21 @@ const minimize = (str: string) => {
     return str;
 };
 
-const prompt = minimize(getStrFromFiles(['./prompt.txt']))
+const prompt = minimize(getStrFromFiles(['./prompt.txt'])).replace(/stepsToBeAutomated/g, stepsToBeAutomated)
 
 const str = minimize(getStrFromFiles([...getFilesWithPrefix(files),]))
 
-console.log(str)
+const writeStrToFile = (str: string, file: string) => {
+    fs.writeFile(file, str, (err: any) => {
+        if(err) {
+            console.log(err)
+        }else {
+            console.log('done')
+        }
+    })
+}
 
-export { str, prompt }
+
+// writeStrToFile(str, './context.txt')
+
+export { str, prompt, writeStrToFile, getFilesWithPrefix, isDirectory }
