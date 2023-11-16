@@ -1,26 +1,26 @@
 const fs = require('fs')
 
 
-const files = ['pages/webPages/FormsTab.js']//  ['features', 'pages/webPages', 'pages/basePages/BasePage.js', 'steps/editor', 'utils/web-utils']
+const files: string[] = ['features', 'pages/webPages', 'pages/basePages/BasePage.js', 'steps/editor', 'utils/web-utils']
 // const files = ['steps']
-const prefix = '../../workstation-attribute-editor/tests/acceptance'
+const prefix = '../workstation-attribute-editor/tests/acceptance'
 
-const isDirectory = (file) => {
+const isDirectory = (file: string) => {
     return fs.statSync(file).isDirectory();
 }
 
-const getFilesWithPrefix = (files) => {
+const getFilesWithPrefix = (files: string[]) => {
     return files.map((file) => {
         return `${prefix}/${file}`
     })
 }
 
-const getStrFromFiles = (files) => {
+const getStrFromFiles = (files: string[]): string => {
     return files.reduce((acc, file) => {
         const isDir = isDirectory(file)
         if(isDir) {
             const dirFiles = fs.readdirSync(file)
-            const dirFilesPath = dirFiles.map((dirFile) => {
+            const dirFilesPath = dirFiles.map((dirFile: string) => {
                 return `${file}/${dirFile}`
             })
             return acc + getStrFromFiles(dirFilesPath)
@@ -34,7 +34,7 @@ const getStrFromFiles = (files) => {
 // const minimize = (str) => {
 // return str.replace(/\s+/g, ' ')
 // }
-const minimize = (str) => {
+const minimize = (str: string) => {
     // Remove comments
     str = str.replace(/\/\*[\s\S]*?\*\/|\/\/.*/g,'');
     // // Shorten variable names
@@ -49,5 +49,10 @@ const minimize = (str) => {
     return str;
 };
 
-const str = minimize(getStrFromFiles(['../prompt.txt',...getFilesWithPrefix(files),]))
+const prompt = minimize(getStrFromFiles(['./prompt.txt']))
+
+const str = minimize(getStrFromFiles([...getFilesWithPrefix(files),]))
+
 console.log(str)
+
+export { str, prompt }
