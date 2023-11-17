@@ -4,9 +4,9 @@ import {OpenAIEmbeddings} from "langchain/embeddings/openai";
 import {CacheBackedEmbeddings} from "langchain/embeddings/cache_backed";
 import {InMemoryStore} from "langchain/storage/in_memory";
 import {FaissStore} from "langchain/vectorstores/faiss";
-import {prompt, writeStrToFile} from './concat'
+import {writeStrToFile} from './scripts/concat'
 import {ChatPromptTemplate, FewShotChatMessagePromptTemplate,} from "langchain/prompts";
-import {examples} from "./constants/constant";
+import {examples, stepsToBeAutomated} from "./constants/constant";
 import {getDocuments} from "./utils";
 
 export function RunMessage() {
@@ -39,8 +39,7 @@ export function RunMessage() {
         openAIApiKey: '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'
       });
 
-       const examplePrompt = ChatPromptTemplate.fromTemplate(`${prompt}
-       Human: {input}
+       const examplePrompt = ChatPromptTemplate.fromTemplate(`Human: {input}
 AI: {output}`);
       const fewShotPrompt = new FewShotChatMessagePromptTemplate({
         examplePrompt,
@@ -53,7 +52,10 @@ AI: {output}`);
       });
 
       const response = await chain.call({
-        query: 'Please help to write the automation script for TC73066 in the prompt.',
+        query: `Hi, I want you to write the Web UI automation code for TC73066 test steps ${stepsToBeAutomated}\n` +
+            'The automation code should include add or modification of feature file, steps files and utils files.\n' +
+            'Other existed automation code is in the embedded doc of ChatGPT.\n' +
+            'To locate the web elements, you can refer to the html file in the embedded doc.',
       });
 
       console.log(response)

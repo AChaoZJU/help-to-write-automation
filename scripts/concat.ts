@@ -1,20 +1,13 @@
-import {stepsToBeAutomated} from "./constants/constant";
+import {getFilesWithPrefix} from "../utils/file";
 
 const fs = require('fs')
 
 
 const files: string[] = ['features', 'pages/webPages', 'pages/basePages/BasePage.js', 'steps/editor', 'utils/web-utils']
 // const files = ['steps']
-const prefix = '../workstation-attribute-editor/tests/acceptance'
 
 const isDirectory = (file: string) => {
     return fs.statSync(file).isDirectory();
-}
-
-const getFilesWithPrefix = (files: string[]) => {
-    return files.map((file) => {
-        return `${prefix}/${file}`
-    })
 }
 
 const getStrFromFiles = (files: string[]): string => {
@@ -51,7 +44,6 @@ const minimize = (str: string) => {
     return str;
 };
 
-const prompt = minimize(getStrFromFiles(['./constants/prompt.txt'])).replace(/stepsToBeAutomated/g, stepsToBeAutomated)
 
 const str = minimize(getStrFromFiles([...getFilesWithPrefix(files),]))
 
@@ -59,8 +51,6 @@ const writeStrToFile = (str: string, file: string) => {
     fs.writeFile(file, str, (err: any) => {
         if(err) {
             console.log(err)
-        }else {
-            console.log('done')
         }
     })
 }
@@ -68,4 +58,4 @@ const writeStrToFile = (str: string, file: string) => {
 
 // writeStrToFile(str, './context.txt')
 
-export { str, prompt, writeStrToFile, getFilesWithPrefix, isDirectory }
+export { str, writeStrToFile, isDirectory }

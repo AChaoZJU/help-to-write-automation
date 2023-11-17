@@ -1,9 +1,10 @@
-import {isDirectory, getFilesWithPrefix} from "../concat";
+import {isDirectory } from "../scripts/concat";
 import fs from "fs";
 import {Document} from "langchain/document";
 import {RecursiveCharacterTextSplitter, CharacterTextSplitter} from "langchain/text_splitter";
+import {getFilesWithPrefix} from "./file";
 
-export const getDocumentFromFiles = (files: string[], cb: Function) => {
+export const goThroughFiles = (files: string[], cb: Function) => {
   return files.forEach((file) => {
     const isDir = isDirectory(file)
     if(isDir) {
@@ -11,7 +12,7 @@ export const getDocumentFromFiles = (files: string[], cb: Function) => {
       const dirFilesPath = dirFiles.map((dirFile: string) => {
         return `${file}/${dirFile}`
       })
-      getDocumentFromFiles(dirFilesPath, cb)
+      goThroughFiles(dirFilesPath, cb)
     }else {
       const fileContent = fs.readFileSync(file, 'utf-8')
       cb?.(file, fileContent)
@@ -39,7 +40,7 @@ export const getDocuments = async () => {
 
   const dirs =  [...getFilesWithPrefix(['features', 'pages/webPages', 'steps/editor', 'utils/web-utils']), './constants/forms.html']
 
-  getDocumentFromFiles(dirs, cb)
+  goThroughFiles(dirs, cb)
 
   const JSSplitter = RecursiveCharacterTextSplitter.fromLanguage("js", {
     chunkSize: 500,
