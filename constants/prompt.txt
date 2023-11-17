@@ -1,0 +1,5 @@
+Hi, I want you to write the Web UI automation code for TC73066 test steps (stepsToBeAutomated)
+The automation code should include add or modification of feature file, steps files and utils files.
+
+Other existed automation code is in the embedded doc of ChatGPT.
+To locate the web elements, you can refer to the html file in the embedded doc.

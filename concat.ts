@@ -1,4 +1,4 @@
-import {stepsToBeAutomated} from "./constant";
+import {stepsToBeAutomated} from "./constants/constant";
 
 const fs = require('fs')
 
@@ -28,7 +28,7 @@ const getStrFromFiles = (files: string[]): string => {
             return acc + getStrFromFiles(dirFilesPath)
         }else {
             const fileContent = fs.readFileSync(file, 'utf-8')
-            return acc + fileContent
+            return acc + ' ' +  fileContent
         }
     }, '');
 }
@@ -51,7 +51,7 @@ const minimize = (str: string) => {
     return str;
 };
 
-const prompt = minimize(getStrFromFiles(['./prompt.txt'])).replace(/stepsToBeAutomated/g, stepsToBeAutomated)
+const prompt = minimize(getStrFromFiles(['./constants/prompt.txt'])).replace(/stepsToBeAutomated/g, stepsToBeAutomated)
 
 const str = minimize(getStrFromFiles([...getFilesWithPrefix(files),]))
 
